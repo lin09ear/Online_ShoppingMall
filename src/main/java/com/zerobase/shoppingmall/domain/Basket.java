@@ -5,6 +5,8 @@ import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,7 +16,6 @@ import javax.persistence.Id;
 @Entity
 public class Basket {
 
-
     @Id
     @GeneratedValue
     private Long basketId;
@@ -22,6 +23,7 @@ public class Basket {
     private Long userId;
 
     private Long productId;
+    
     private Integer orderCount;
 
 }
