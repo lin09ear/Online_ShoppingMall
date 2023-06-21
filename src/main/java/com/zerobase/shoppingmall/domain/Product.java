@@ -14,21 +14,23 @@ import javax.persistence.Id;
 @Entity
 public class Product {
 
-
     @Id
     @GeneratedValue
-    private Long product_id;
+    private Long id;
 
-    private String product_name;
+    private String name;
 
     private Long price;
 
-    private String product_explanation;
+    private String explanation;
 
-    private int stock;
+    private Integer stock;
+
+    private Boolean isSoldout;
 
     private String seller;
 
-    private Long sales_volume;
+    private Long salesVolume;
+
 
 }

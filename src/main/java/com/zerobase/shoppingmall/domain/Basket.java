@@ -17,11 +17,11 @@ public class Basket {
 
     @Id
     @GeneratedValue
-    private Long basket_id;
+    private Long basketId;
 
-    private Long user_id;
+    private Long userId;
 
-    private Long product_id;
-    private int number_of_orders;
+    private Long productId;
+    private Integer orderCount;
 
 }

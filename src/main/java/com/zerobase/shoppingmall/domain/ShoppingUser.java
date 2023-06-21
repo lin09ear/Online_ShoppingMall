@@ -18,20 +18,21 @@ public class ShoppingUser {
 
     @Id
     @GeneratedValue
-    private Long user_id;
+    private Long id;
 
     private String password;
 
-    private String user_name;
+    private String name;
 
-    private String birth_date;
+    private String birthday;
 
     @CreatedDate
-    private LocalDateTime created_date;
+    private LocalDateTime createdDate;
 
     private String gender;
 
     private String email;
 
     private String address;
+
 }
