@@ -1,10 +1,11 @@
 package com.zerobase.shoppingmall.domain;
 
+import com.zerobase.shoppingmall.dto.ProductDto;
 import lombok.*;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.stream.DoubleStream;
 
 @Getter
 @Setter
@@ -31,5 +32,9 @@ public class Product {
     private String seller;
 
     private Long salesVolume;
+
+    public Product(Product product){
+        this.name = product.getName();
+    }
 
 }

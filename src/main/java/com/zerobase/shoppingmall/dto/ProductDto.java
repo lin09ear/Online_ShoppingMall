@@ -15,8 +15,6 @@ public class ProductDto {
 
     private String explanation;
 
-    private Integer stock;
-
     private Boolean isSoldout;
 
     private String seller;
