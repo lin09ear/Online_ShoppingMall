@@ -16,16 +16,30 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
-@RequestMapping("/product")
 public class ProductController {
 
     private final ProductService productService;
 
 
+    /*
     @GetMapping("/list")
     public ResponseEntity<?> searchProduct(final Pageable pageable) {
         Page<Product> products = this.productService.getAllProduct(pageable);
         return ResponseEntity.ok(products);
+    }
+    */
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+
+    @PostMapping("/product/create")
+    public Product createProduct(@RequestBody Product product) {
+        return productService.createProduct(product);
+    }
+
+    @GetMapping("/product/list")
+    public Iterable<Product> getAllProducts() {
+        return productService.getAllProducts();
     }
 }
