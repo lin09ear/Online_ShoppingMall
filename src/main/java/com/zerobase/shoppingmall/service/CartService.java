@@ -32,10 +32,6 @@ public class CartService {
     @Transactional
     public CartDto createCart(Long id) {
 
-        Long newCartId = cartRepository.findFirstByOrderByIdDesc()
-                .map(cart -> cart.getId() + 1)
-                .orElse(10000L);
-
         return CartDto.fromEntity(
                 cartRepository.save(Cart.builder()
                         .build())
