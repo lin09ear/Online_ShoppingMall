@@ -3,11 +3,13 @@ package com.zerobase.shoppingmall.service;
 import com.zerobase.shoppingmall.domain.Cart;
 import com.zerobase.shoppingmall.domain.CartItem;
 import com.zerobase.shoppingmall.domain.Product;
+import com.zerobase.shoppingmall.dto.CartDto;
 import com.zerobase.shoppingmall.repository.CartRepository;
 import com.zerobase.shoppingmall.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,8 +23,23 @@ public class CartService {
     private ProductRepository productRepository;
 
 
+    /*
     public Cart createCart(Cart cart) {
         return cartRepository.save(cart);
+    }
+    */
+
+    @Transactional
+    public CartDto createCart(Long id) {
+
+        Long newCartId = cartRepository.findFirstByOrderByIdDesc()
+                .map(cart -> cart.getId() + 1)
+                .orElse(10000L);
+
+        return CartDto.fromEntity(
+                cartRepository.save(Cart.builder()
+                        .build())
+        );
     }
 
     public Cart getCartById(Long id) {

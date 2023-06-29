@@ -7,7 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Getter
