@@ -31,7 +31,6 @@ public class CartService {
 
     @Transactional
     public CartDto createCart(Long id) {
-
         return CartDto.fromEntity(
                 cartRepository.save(Cart.builder()
                         .build())

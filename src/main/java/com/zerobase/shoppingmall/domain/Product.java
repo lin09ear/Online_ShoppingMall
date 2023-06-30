@@ -33,8 +33,8 @@ public class Product {
 
     private Long salesVolume;
 
-    public Product(Product product){
+  /*  public Product(Product product){
         this.name = product.getName();
     }
-
+*/
 }
