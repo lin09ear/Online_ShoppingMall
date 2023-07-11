@@ -2,13 +2,15 @@ package com.zerobase.shoppingmall.controller;
 
 import com.zerobase.shoppingmall.domain.Cart;
 import com.zerobase.shoppingmall.domain.CartItem;
+import com.zerobase.shoppingmall.dto.CartDto;
 import com.zerobase.shoppingmall.dto.CreateCart;
+import com.zerobase.shoppingmall.exception.BadRequestException;
 import com.zerobase.shoppingmall.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 public class CartController {
@@ -26,9 +28,15 @@ public class CartController {
         );
     }
 
-    @PostMapping("/cart/{cartId}/additem")
+
+    @PostMapping("/additem/{cartId}")
     public void addProductToCart(@PathVariable Long cartId, @RequestBody CartItem cartItem) {
-        cartService.addProductToCart(cartId, cartItem.getProductId(), cartItem.getQuantity());
+        if (cartItem == null) {
+            throw new BadRequestException("Invalid request body.");
+        }
+
+        cartService.addProductToCart(cartId, cartItem.getProductId(), cartItem.getCount());
     }
+
 
 }

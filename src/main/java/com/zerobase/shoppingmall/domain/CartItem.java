@@ -1,11 +1,11 @@
 package com.zerobase.shoppingmall.domain;
 
+import com.zerobase.shoppingmall.dto.CreateCart;
 import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 @Getter
 @Setter
@@ -13,14 +13,26 @@ import javax.persistence.OneToOne;
 @AllArgsConstructor
 @Builder
 @Entity
-public class CartItem {
+public class CartItem extends CreateCart {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private Long cartId;
     private Long productId;
-    private Integer quantity;
+    private Integer count;
     private Long price;
+
+    public static CartItem createCartItem(Cart cart, Long productId, int count) {
+        CartItem cartItem = new CartItem();
+        cartItem.setCartId(cartItem.cartId);
+        cartItem.setProductId(cartItem.productId);
+        cartItem.setCount(count);
+        return cartItem;
+    }
+
+    public void addCount(int count){
+        this.count += count;
+    }
 
     public Long getProductId() {
         return productId;
@@ -30,12 +42,12 @@ public class CartItem {
         this.productId = productId;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public Integer getCount() {
+        return count;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public void setCount(Integer count) {
+        this.count = count;
     }
 
     public Long getPrice() {
@@ -45,4 +57,5 @@ public class CartItem {
     public void setPrice(Long price) {
         this.price = price;
     }
+
 }

@@ -40,7 +40,7 @@ public class Cart {
         if (!cartItems.containsKey(productId)) {
             cartItems.put(productId, new CartItem());
         } else {
-            cartItems.get(productId).setQuantity(cartItems.get(productId).getQuantity() + quantity);
+            cartItems.get(productId).setCount(cartItems.get(productId).getCount() + quantity);
         }
     }
 
@@ -55,7 +55,7 @@ public class Cart {
     public Long getCartTotal() {
         Long total = 0L;
         for (CartItem cartItem : cartItems.values()) {
-            total += cartItem.getPrice() * cartItem.getQuantity();
+            total += cartItem.getPrice() * cartItem.getCount();
         }
         return total;
     }
