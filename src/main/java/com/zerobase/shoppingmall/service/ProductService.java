@@ -26,7 +26,7 @@ public class ProductService {
     @Transactional
     public ProductDto createProduct(Long id, String name, Long price, String explanation, String seller) {
         Product product = Product.builder()
-                .id(id)
+                .productId(id)
                 .name(name)
                 .price(price)
                 .explanation(explanation)

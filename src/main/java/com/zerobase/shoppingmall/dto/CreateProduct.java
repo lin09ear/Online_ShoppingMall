@@ -1,11 +1,8 @@
 package com.zerobase.shoppingmall.dto;
 
-import com.zerobase.shoppingmall.domain.CartItem;
-import com.zerobase.shoppingmall.domain.Product;
 import lombok.*;
 
 import javax.validation.constraints.Min;
-import java.util.Map;
 
 public class CreateProduct {
 
@@ -16,7 +13,7 @@ public class CreateProduct {
     public static class Request {
         //      @NotNull
         @Min(1)
-        private Long id;
+        private Long productId;
 
         private String name;
 
@@ -36,7 +33,7 @@ public class CreateProduct {
     @Builder
     public static class Response {
 
-        private Long id;
+        private Long productId;
 
         private String name;
 
@@ -52,7 +49,7 @@ public class CreateProduct {
 
         public static Response from(ProductDto productDto){
             return Response.builder()
-                    .id(productDto.getId())
+                    .productId(productDto.getProductId())
                     .name(productDto.getName())
                     .price(productDto.getPrice())
                     .explanation(productDto.getExplanation())

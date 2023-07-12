@@ -4,7 +4,6 @@ import com.zerobase.shoppingmall.domain.CartItem;
 import lombok.*;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 public class CreateCart {
@@ -26,13 +25,13 @@ public class CreateCart {
     @Builder
     public static class Response {
 
-        private Long id;
+        private Long cartId;
 
         private Map<Long, CartItem> cartItems;
 
         public static Response from(CartDto cartDto) {
             return Response.builder()
-                    .id(cartDto.getId())
+                    .cartId(cartDto.getCartId())
                     .cartItems(cartDto.getCartItems())
                     .build();
         }

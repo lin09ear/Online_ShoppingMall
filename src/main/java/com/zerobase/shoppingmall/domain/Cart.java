@@ -2,10 +2,7 @@ package com.zerobase.shoppingmall.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,28 +16,28 @@ public class Cart {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private Long cartId;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "cartId")
     private Map<Long, CartItem> cartItems = new HashMap<>();
 
-    public Long getId() {
-        return id;
+    public Long getCartId() {
+        return cartId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCartId(Long cartId) {
+        this.cartId = cartId;
     }
 
     public void setCartItems(Map<Long, CartItem> cartItems) {
         this.cartItems = cartItems;
     }
 
-    public void addProduct(Long productId, Integer quantity) {
+    public void addProduct(Long productId, Integer count) {
         if (!cartItems.containsKey(productId)) {
             cartItems.put(productId, new CartItem());
         } else {
-            cartItems.get(productId).setCount(cartItems.get(productId).getCount() + quantity);
+            cartItems.get(productId).setCount(cartItems.get(productId).getCount() + count);
         }
     }
 

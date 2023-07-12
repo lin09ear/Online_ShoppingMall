@@ -1,11 +1,9 @@
 package com.zerobase.shoppingmall.domain;
 
-import com.zerobase.shoppingmall.dto.ProductDto;
 import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.stream.DoubleStream;
 
 @Getter
 @Setter
@@ -17,7 +15,7 @@ public class Product {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private Long productId;
 
     private String name;
 

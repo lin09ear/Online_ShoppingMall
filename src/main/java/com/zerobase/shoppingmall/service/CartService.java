@@ -14,11 +14,16 @@ import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Persistence;
 import javax.transaction.Transactional;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+
 
 @Service
 public class CartService {
@@ -31,7 +36,9 @@ public class CartService {
     @Autowired
     private CartItemRepository cartItemRepository;
 
-    public CartDto createCart(Long id) {
+
+    @Transactional
+    public CartDto createCart(Long cartId) {
 /*
         Long newCartId = cartRepository.findFirstByOrderByIdDesc()
                 .map(cart -> cart.getId() + 1)
@@ -43,36 +50,45 @@ public class CartService {
         );
     }
 
-    public Cart getCartById(Long id) {
-        return cartRepository.findById(id).orElse(null);
+    public Cart getCartById(Long cartId) {
+        return cartRepository.findById(cartId).orElse(null);
     }
 
 
+
     public void addProductToCart(Long cartId, Long productId, int count) {
+
         // Get the cart.
         Optional<Cart> cartOptional = cartRepository.findById(cartId);
-        Cart cart = cartOptional.orElseThrow(EntityNotFoundException::new);
+        Cart cart = cartOptional.orElseThrow(() -> new EntityNotFoundException("Cart not found"));
 
-        // Get the CartItem object.
-        CartItem cartItem = cartItemRepository.findByCartIdAndProductId(cartId, productId);
+        // Get the product.
+        Product product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("Product not found"));
 
-        // If the CartItem object is not null, then increase the quantity.
-        if (cartItem != null) {
-            cartItem.setCount(cartItem.getCount() + count);
+        // Get the CartItem.
+        CartItem cartItem = cart.getCartItems().get(cartId);
+        if (cartItem == null) {
+
+            // Create a new CartItem.
+            cartItem = new CartItem();
+            cartItem.setCartId(cartId);
+            cartItem.setProductId(productId);
+            cartItem.setCount(count);
+            cartItem.setPrice(product.getPrice() * count);
+
+            // Save the CartItem.
+            cartItemRepository.save(cartItem);
+
         } else {
-
-            // If the CartItem object is null, then create a new one.
-            cartItem = CartItem.builder()
-                    .cartId(cartId)
-                    .productId(productId)
-                    .count(count)
-                    .build();
+            // Update the CartItem's count.
+            cartItem.setCount(cartItem.getCount() + count);
+            cartItem.setPrice(cartItem.getPrice() + product.getPrice() * count);
         }
 
-        // Save the CartItem object.
-        cartItemRepository.save(cartItem);
+        // Add the CartItem to the cart's cartItems map.
+        cart.getCartItems().put(cartId, cartItem);
 
-        // Save the cart.
+        // Save the cart and the CartItem.
         cartRepository.save(cart);
     }
 

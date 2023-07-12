@@ -3,8 +3,6 @@ package com.zerobase.shoppingmall.dto;
 import com.zerobase.shoppingmall.domain.Product;
 import lombok.*;
 
-import javax.validation.constraints.NotNull;
-
 @Getter
 @Setter
 @Builder
@@ -12,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class ProductDto {
 
-    private Long id;
+    private Long productId;
 
     private String name;
 
@@ -28,7 +26,7 @@ public class ProductDto {
 
     public static ProductDto fromEntity(Product product){
         return ProductDto.builder()
-                .id(product.getId())
+                .productId(product.getProductId())
                 .name(product.getName())
                 .price(product.getPrice())
                 .explanation(product.getExplanation())

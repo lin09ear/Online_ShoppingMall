@@ -3,6 +3,7 @@ package com.zerobase.shoppingmall.domain;
 import com.zerobase.shoppingmall.dto.CreateCart;
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -17,12 +18,13 @@ public class CartItem extends CreateCart {
 
     @Id
     @GeneratedValue
+    private Long id;
     private Long cartId;
     private Long productId;
     private Integer count;
     private Long price;
 
-    public static CartItem createCartItem(Cart cart, Long productId, int count) {
+    public static CartItem createCartItem(Long cartId, Long productId, int count) {
         CartItem cartItem = new CartItem();
         cartItem.setCartId(cartItem.cartId);
         cartItem.setProductId(cartItem.productId);

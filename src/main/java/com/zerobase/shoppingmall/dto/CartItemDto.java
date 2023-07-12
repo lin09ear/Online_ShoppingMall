@@ -1,5 +1,6 @@
 package com.zerobase.shoppingmall.dto;
 
+import com.zerobase.shoppingmall.domain.Product;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ public class CartItemDto {
     private Long cartId;
     private Long productId;
     private int count;
+    private Long price;
 
     public CartItemDto(Long cartId, Long productId, int count) {
         this.cartId = cartId;
