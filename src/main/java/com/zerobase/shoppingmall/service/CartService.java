@@ -7,6 +7,7 @@ import com.zerobase.shoppingmall.domain.Product;
 import com.zerobase.shoppingmall.dto.CartDto;
 import com.zerobase.shoppingmall.dto.CartItemDto;
 import com.zerobase.shoppingmall.dto.ProductDto;
+import com.zerobase.shoppingmall.exception.ResourceNotFoundException;
 import com.zerobase.shoppingmall.repository.CartItemRepository;
 import com.zerobase.shoppingmall.repository.CartRepository;
 import com.zerobase.shoppingmall.repository.ProductRepository;
@@ -19,10 +20,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
 import javax.transaction.Transactional;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -50,8 +49,21 @@ public class CartService {
         );
     }
 
-    public Cart getCartById(Long cartId) {
-        return cartRepository.findById(cartId).orElse(null);
+    @Transactional
+    public Map<Long, CartItem> getCartItems(Long cartId) {
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cart not found with id: " + cartId));
+
+        Map<Long, CartItem> cartItems = new HashMap<>();
+
+        // Get the product names and prices from the database.
+        List<CartItem> cartItemList = cartItemRepository.findByCartId(cartId);
+
+        for (CartItem cartItem : cartItemList) {
+            cartItems.put(cartItem.getProductId(), cartItem);
+        }
+
+        return cartItems;
     }
 
 
@@ -66,27 +78,24 @@ public class CartService {
         Product product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("Product not found"));
 
         // Get the CartItem.
-        CartItem cartItem = cart.getCartItems().get(cartId);
-        if (cartItem == null) {
-
-            // Create a new CartItem.
-            cartItem = new CartItem();
-            cartItem.setCartId(cartId);
-            cartItem.setProductId(productId);
-            cartItem.setCount(count);
-            cartItem.setPrice(product.getPrice() * count);
-
-            // Save the CartItem.
-            cartItemRepository.save(cartItem);
-
-        } else {
+        CartItem cartItem = cart.getCartItems().get(productId);
+        if (cartItem != null) {
             // Update the CartItem's count.
             cartItem.setCount(cartItem.getCount() + count);
             cartItem.setPrice(cartItem.getPrice() + product.getPrice() * count);
+        } else {
+            // Create a new CartItem.
+            cartItem = new CartItem();
+            cartItem.setCartId(cartId);
+            cartItem.setProductId(product.getProductId());
+            cartItem.setCount(count);
+            cartItem.setPrice(product.getPrice() * count);
+            cartItem.setName(product.getName());
         }
+        cartItemRepository.save(cartItem);
 
         // Add the CartItem to the cart's cartItems map.
-        cart.getCartItems().put(cartId, cartItem);
+        cart.getCartItems().put(productId, cartItem);
 
         // Save the cart and the CartItem.
         cartRepository.save(cart);

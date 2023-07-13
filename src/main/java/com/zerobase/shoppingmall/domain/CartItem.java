@@ -24,6 +24,8 @@ public class CartItem extends CreateCart {
     private Integer count;
     private Long price;
 
+    private String name;
+
     public static CartItem createCartItem(Long cartId, Long productId, int count) {
         CartItem cartItem = new CartItem();
         cartItem.setCartId(cartItem.cartId);
@@ -60,4 +62,11 @@ public class CartItem extends CreateCart {
         this.price = price;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
