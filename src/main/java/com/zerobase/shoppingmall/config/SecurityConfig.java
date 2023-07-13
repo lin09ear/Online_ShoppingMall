@@ -1,5 +1,6 @@
 package com.zerobase.shoppingmall.config;
 
+import com.zerobase.shoppingmall.exception.CustomAuthenticationEntryPoint;
 import com.zerobase.shoppingmall.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +22,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     MemberService memberService;
 
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.formLogin()
@@ -33,23 +39,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout"))
                 .logoutSuccessUrl("/")
         ;
-    }
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
+        http.authorizeRequests()
+                .mvcMatchers("/css/**", "/js/**", "/img/**").permitAll()
+                .mvcMatchers("/", "/members/**", "/product/**", "/images/**","/h2-console/**").permitAll()
+                .mvcMatchers("/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+        ;
+
+        http.exceptionHandling()
+                .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+        ;
+
     }
 
-    /*
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception{
-        auth.userDetailsService(memberService)
-                .passwordEncoder(passwordEncoder());
-    }
-
-     */
-    @Override
-    public void configure(WebSecurity web) throws Exception{
-        web.ignoring().antMatchers("/h2-console/**", "/**");
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/**");
     }
 
 }

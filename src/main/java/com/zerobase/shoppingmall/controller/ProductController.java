@@ -15,7 +15,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @PostMapping("/product/create")
+    @PostMapping("/admin/product/create")
     public CreateProduct.Response createProduct(
             @RequestBody @Valid CreateProduct.Request request
     ) {

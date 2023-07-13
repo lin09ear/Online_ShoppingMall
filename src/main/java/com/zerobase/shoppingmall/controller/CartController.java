@@ -51,7 +51,7 @@ public class CartController {
         cartService.addProductToCart(cartId, productId, cartItem.getCount());
         cartRepository.save(cart);
     }
-    
+
     @Transactional
     @GetMapping("/cart/{cartId}")
     public Map<Long, CartItem> getCartItems(@PathVariable Long cartId) {
