@@ -25,13 +25,15 @@ public class ProductController {
         productDto.setPrice(request.getPrice());
         productDto.setExplanation(request.getExplanation());
         productDto.setSeller(request.getSeller());
+        productDto.setStock(request.getStock());
 
         return CreateProduct.Response.from(productService.createProduct(
                 productDto.getProductId(),
                 productDto.getName(),
                 productDto.getPrice(),
                 productDto.getExplanation(),
-                productDto.getSeller()
+                productDto.getSeller(),
+                productDto.getStock()
         ));
     }
 

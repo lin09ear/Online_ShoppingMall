@@ -91,6 +91,7 @@ public class CartService {
             cartItem.setCount(count);
             cartItem.setPrice(product.getPrice() * count);
             cartItem.setName(product.getName());
+            cartItem.setStock(product.getStock());
         }
         cartItemRepository.save(cartItem);
 

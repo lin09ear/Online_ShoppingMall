@@ -23,6 +23,8 @@ public class CreateProduct {
 
         private String seller;
 
+        private Integer stock;
+
 
     }
 
@@ -47,6 +49,8 @@ public class CreateProduct {
 
         private Long salesVolume;
 
+        private Integer stock;
+
         public static Response from(ProductDto productDto){
             return Response.builder()
                     .productId(productDto.getProductId())
@@ -56,6 +60,7 @@ public class CreateProduct {
                     .isSoldout(productDto.getIsSoldout())
                     .seller(productDto.getSeller())
                     .salesVolume(productDto.getSalesVolume())
+                    .stock(productDto.getStock())
                     .build();
         }
     }

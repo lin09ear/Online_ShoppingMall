@@ -24,6 +24,8 @@ public class ProductDto {
 
     private Long salesVolume;
 
+    private Integer stock;
+
     public static ProductDto fromEntity(Product product){
         return ProductDto.builder()
                 .productId(product.getProductId())
@@ -33,6 +35,7 @@ public class ProductDto {
                 .isSoldout(product.getIsSoldout())
                 .seller(product.getSeller())
                 .salesVolume(product.getSalesVolume())
+                .stock(product.getStock())
                 .build();
     }
 }

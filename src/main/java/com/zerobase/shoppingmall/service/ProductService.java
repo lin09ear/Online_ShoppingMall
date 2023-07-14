@@ -1,7 +1,10 @@
 package com.zerobase.shoppingmall.service;
 
+import com.zerobase.shoppingmall.domain.CartItem;
 import com.zerobase.shoppingmall.domain.Product;
+import com.zerobase.shoppingmall.dto.CartItemDto;
 import com.zerobase.shoppingmall.dto.ProductDto;
+import com.zerobase.shoppingmall.repository.CartItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -24,13 +27,14 @@ public class ProductService {
 
 
     @Transactional
-    public ProductDto createProduct(Long id, String name, Long price, String explanation, String seller) {
+    public ProductDto createProduct(Long id, String name, Long price, String explanation, String seller, Integer stock) {
         Product product = Product.builder()
                 .productId(id)
                 .name(name)
                 .price(price)
                 .explanation(explanation)
                 .seller(seller)
+                .stock(stock)
                 .build();
 
         Product savedProduct = productRepository.save(product);

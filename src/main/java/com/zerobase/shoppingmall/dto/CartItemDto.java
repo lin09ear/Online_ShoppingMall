@@ -10,13 +10,16 @@ public class CartItemDto {
 
     private Long cartId;
     private Long productId;
-    private int count;
+    private Integer count;
     private Long price;
 
-    public CartItemDto(Long cartId, Long productId, int count) {
+    private Integer stock;
+
+    public CartItemDto(Long cartId, Long productId, Integer count, Integer stock) {
         this.cartId = cartId;
         this.productId = productId;
         this.count = count;
+        this.stock = stock;
     }
 
     public Long getCartId() {
@@ -37,6 +40,14 @@ public class CartItemDto {
 
     public int getCount() {
         return count;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 
     public void setCount(int count) {
